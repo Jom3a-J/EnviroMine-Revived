@@ -1,0 +1,36 @@
+# Mod metadata. The dollar-brace placeholders are filled in from gradle.properties by the
+# generateModMetadata task (so do not write a literal dollar-brace anywhere in this file, even in comments).
+# Format reference: https://docs.neoforged.net/docs/gettingstarted/modfiles
+
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+
+# CC BY-NC-SA 4.0, inherited from the original EnviroMine source (see LICENSE and docs/LICENSE_NOTES.md).
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+
+# Attribution required by CC BY-NC-SA 4.0. Keep this in sync with README.md and LICENSE.
+credits="Based on EnviroMine for Minecraft 1.7.10 by Funwayguy and the EnviroMine team (https://github.com/EnviroMine/EnviroMine-1.7), used under CC BY-NC-SA 4.0. This is an unofficial port and is not endorsed by the original authors."
+authors="${mod_authors}"
+
+description='''
+A small, vanilla-plus survival addition: body temperature and hydration, ported from the original EnviroMine.
+'''
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
