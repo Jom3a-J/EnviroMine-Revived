@@ -110,6 +110,7 @@ mod:
 
 - **Source code, releases and bug reports:** https://github.com/Jom3a-J/EnviroMine-Revived
 - **Data-pack and config guide:** https://github.com/Jom3a-J/EnviroMine-Revived/blob/main/docs/DATAPACKS.md
+- **Changelog:** https://github.com/Jom3a-J/EnviroMine-Revived/blob/main/docs/CURSEFORGE_CHANGELOG.md
 
 ---
 
