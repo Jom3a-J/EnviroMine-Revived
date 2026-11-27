@@ -7,6 +7,13 @@ EnviroMine mod for Minecraft 1.7.10, rebuilt for modern Minecraft with gentler d
 > Status: 1.0.0, feature complete. The original author's CurseForge page invites updates and puts the
 > source under CC BY-NC-SA 4.0 (see docs/LICENSE_NOTES.md).
 
+## Links
+
+- **Download:** [latest release](https://github.com/Jom3a-J/EnviroMine-Revived/releases/latest)
+  (requires NeoForge 21.1.267 or newer; install on both client and server)
+- **Source code:** https://github.com/Jom3a-J/EnviroMine-Revived
+- **Bug reports and ideas:** https://github.com/Jom3a-J/EnviroMine-Revived/issues
+
 ## Features
 
 - **Body temperature**, pushed by the biome, time of day, rain, shade, height, nearby heat and cold
