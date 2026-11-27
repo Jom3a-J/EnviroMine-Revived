@@ -4,8 +4,8 @@ A small, vanilla-plus survival addition for **Minecraft 1.21.1 (NeoForge)**: bod
 hydration (thirst). It is a port of the temperature and hydration systems from the abandoned
 EnviroMine mod for Minecraft 1.7.10, rebuilt for modern Minecraft with gentler defaults.
 
-> Status: v1 feature complete, not released. The licence is waiting for confirmation from the
-> original authors (see docs/LICENSE_NOTES.md).
+> Status: 1.0.0, feature complete. The original author's CurseForge page invites updates and puts the
+> source under CC BY-NC-SA 4.0 (see docs/LICENSE_NOTES.md).
 
 ## Features
 
@@ -51,7 +51,7 @@ Both config files can also be edited in game: Mods → EnviroMine Revived → Co
 
 ## Credits
 
-This mod is based on **EnviroMine** by **Funwayguy, thislooksfun and GenDeathrow**, with
+This mod is based on **EnviroMine** by **Funwayguy, thislooksfun, GenDeathrow and Timbucktato**, with
 contributions from Anton, Mrkwtkr, TheVikingWarrior, Vexatos, LorenzoDCC and Ken
 (source: https://github.com/EnviroMine/EnviroMine-1.7), used under
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). It is an unofficial port and
@@ -104,4 +104,4 @@ Stats are frozen in creative and spectator mode. The full manual checklist is in
 - [docs/TEST_CHECKLIST.md](docs/TEST_CHECKLIST.md): release test checklist
 - [docs/ORIGINAL_FEATURES.md](docs/ORIGINAL_FEATURES.md): how the original systems work
 - [docs/PORTING_MAP.md](docs/PORTING_MAP.md): old systems and their modern replacements
-- [docs/LICENSE_NOTES.md](docs/LICENSE_NOTES.md): licence research and the draft message to the authors
+- [docs/LICENSE_NOTES.md](docs/LICENSE_NOTES.md): licence research and the author's permission

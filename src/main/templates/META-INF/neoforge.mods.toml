@@ -14,7 +14,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 
 # Attribution required by CC BY-NC-SA 4.0. Keep this in sync with README.md and LICENSE.
-credits="Based on EnviroMine for Minecraft 1.7.10 by Funwayguy, thislooksfun and GenDeathrow, with contributions from Anton, Mrkwtkr, TheVikingWarrior, Vexatos, LorenzoDCC and Ken (https://github.com/EnviroMine/EnviroMine-1.7), used under CC BY-NC-SA 4.0. This is an unofficial port and is not endorsed by the original authors."
+credits="Based on EnviroMine for Minecraft 1.7.10 by Funwayguy, thislooksfun, GenDeathrow and Timbucktato, with contributions from Anton, Mrkwtkr, TheVikingWarrior, Vexatos, LorenzoDCC and Ken (https://github.com/EnviroMine/EnviroMine-1.7), used under CC BY-NC-SA 4.0. This is an unofficial port and is not endorsed by the original authors."
 authors="${mod_authors}"
 
 description='''
