@@ -9,7 +9,7 @@
 | M2 | Player stat storage, server tick logic, client sync | done |
 | M3 | HUD for both stats | done |
 | M4 | Water types, drinking, effects of extreme values | done |
-| M5 | Data-driven biome, block and armour modifiers; config | done (in-game check pending) |
+| M5 | Data-driven biome, block and armour modifiers; config | done |
 | M6 | Polish, balance, README, test checklist | |
 
 ## Possible later work (not in v1)
