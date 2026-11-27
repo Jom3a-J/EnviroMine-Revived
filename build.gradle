@@ -69,6 +69,9 @@ neoForge {
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
             type = "gameTestServer"
+            // Own folder, so the tests always start from default configs, not whatever the dev
+            // client or server was last set to.
+            gameDirectory = project.file('run-gametest')
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
@@ -182,6 +185,14 @@ publishing {
             url "file://${project.projectDir}/repo"
         }
     }
+}
+
+// CC BY-NC-SA 4.0 requires the licence notice and credits to travel with every copy of the mod,
+// so the licence, readme (credits) and change list go into the jar.
+tasks.named('jar', Jar).configure {
+    from(rootProject.file('LICENSE')) { rename { 'LICENSE_enviromine_revived.txt' } }
+    from(rootProject.file('README.md')) { rename { 'README_enviromine_revived.md' } }
+    from(rootProject.file('CHANGES.md')) { rename { 'CHANGES_enviromine_revived.md' } }
 }
 
 tasks.named('test', Test).configure {
