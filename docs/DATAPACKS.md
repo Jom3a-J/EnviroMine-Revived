@@ -58,7 +58,7 @@ To remove an entry from the defaults:
 ```json
 {
   "values": {
-    "minecraft:leather_chestplate": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
+    "minecraft:leather_chestplate": { "insulation": 3 },
     "minecraft:iron_helmet": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
     "minecraft:carved_pumpkin": { "shade_add": 1, "night_add": 1 }
   }
@@ -68,10 +68,11 @@ To remove an entry from the defaults:
 Applies to anything worn in an armour slot. For each piece, depending on whether you are in the
 sun (day, open sky, above 0 °C), in the shade (day, otherwise) or out at night:
 `*_add` is added to the felt temperature, and `*_mult` multiplies it (all pieces' multipliers are
-combined as `1 + sum(mult - 1)`). Leave fields out for no effect.
+combined as `1 + sum(mult - 1)`). `insulation` warms you only while you are colder than
+comfortable (25 °C felt), and never past it, so it suits clothing. Leave fields out for no effect.
 
-Defaults: leather warms (+2 sun, +3 shade, +3 night per piece), iron and gold heat up in the sun,
-diamond reflects a little. Chainmail, netherite and turtle shells have no effect.
+Defaults: leather insulates (3 per piece), iron and gold heat up in the sun, diamond reflects a
+little. Chainmail, netherite and turtle shells have no effect.
 
 ### Biomes: `data_maps/worldgen/biome/biome_climate.json`
 

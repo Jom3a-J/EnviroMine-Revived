@@ -50,7 +50,8 @@ public final class ModDataMaps {
             Codec.DOUBLE.optionalFieldOf("night_add", 0.0).forGetter(ArmorModifier::nightAdd),
             Codec.DOUBLE.optionalFieldOf("sun_mult", 1.0).forGetter(ArmorModifier::sunMult),
             Codec.DOUBLE.optionalFieldOf("shade_mult", 1.0).forGetter(ArmorModifier::shadeMult),
-            Codec.DOUBLE.optionalFieldOf("night_mult", 1.0).forGetter(ArmorModifier::nightMult)
+            Codec.DOUBLE.optionalFieldOf("night_mult", 1.0).forGetter(ArmorModifier::nightMult),
+            Codec.DOUBLE.optionalFieldOf("insulation", 0.0).forGetter(ArmorModifier::insulation)
     ).apply(i, ArmorModifier::new));
 
     /**

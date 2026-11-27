@@ -23,9 +23,11 @@ experimental build").
 
 Treat the code as CC BY-NC-SA 4.0, as the repository's own LICENSE file states:
 
-- **BY**: credit the original EnviroMine team (Funwayguy, who made the last commit, plus the other
-  authors; the full list still needs to be taken from the full commit history and the CurseForge
-  project members before release, since the reference clone is shallow) in README.md, LICENSE and `neoforge.mods.toml` credits.
+- **BY**: credit the original authors. From the full commit history of EnviroMine-1.7 (578
+  commits, 2014-07-28 to 2015-12-07): Funwayguy (244), thislooksfun (205), GenDeathrow (114,
+  also spelled GenDeathorw), and Anton (6), Mrkwtkr (3), TheVikingWarrior (3), Vexatos (1),
+  LorenzoDCC (1), Ken (1). These are commit author names; check them against the CurseForge
+  project members before release, since people may prefer another name. Credit them in README.md, LICENSE and `neoforge.mods.toml`.
 - **NC**: no paid access, no ad-gated or monetised downloads, no Patreon-only builds.
 - **SA**: the port is released under CC BY-NC-SA 4.0 too.
 - State the changes made (CHANGES.md).

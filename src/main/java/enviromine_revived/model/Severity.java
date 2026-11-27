@@ -21,6 +21,11 @@ public final class Severity {
         public static TemperatureThresholds defaults() {
             return new TemperatureThresholds(35, 32, 30, 39, 41, 43);
         }
+
+        /** Must run cold3 < cold2 < cold1 < hot1 < hot2 < hot3, or levels would be skipped. */
+        public boolean isOrdered() {
+            return cold3 < cold2 && cold2 < cold1 && cold1 < hot1 && hot1 < hot2 && hot2 < hot3;
+        }
     }
 
     /** Hydration thresholds, ordered mild to severe. */
@@ -31,6 +36,11 @@ public final class Severity {
         /** Thirsty at 30, parched at 10, dehydrated at 0. */
         public static HydrationThresholds defaults() {
             return new HydrationThresholds(30, 10, 0);
+        }
+
+        /** Must run level3 < level2 < level1. */
+        public boolean isOrdered() {
+            return level3 < level2 && level2 < level1;
         }
     }
 

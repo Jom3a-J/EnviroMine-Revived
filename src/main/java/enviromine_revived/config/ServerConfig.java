@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
+import enviromine_revived.EnviroMineRevived;
 import enviromine_revived.model.HydrationModel;
 import enviromine_revived.model.HydrationTuning;
 import enviromine_revived.model.Severity;
@@ -75,15 +76,39 @@ public final class ServerConfig {
         SPEC = b.build();
     }
 
-    /** Builds the live settings from the loaded config. */
+    /**
+     * Builds the live settings from the loaded config. Each value is range-checked by the config
+     * itself; groups whose values contradict each other are replaced by their defaults, with a
+     * warning in the log, so a typo cannot skip a level or invert the body temperature limits.
+     */
     static Settings.Snapshot read() {
         Map<WaterType, WaterType.Properties> water = new EnumMap<>(WaterType.class);
         WATER.forEach((type, config) -> water.put(type, config.read()));
+
+        TemperatureTuning temperature = TEMPERATURE.read();
+        if (!temperature.isConsistent()) {
+            EnviroMineRevived.LOGGER.warn("Server config: temperature.min_body_temp < normal_body_temp < max_body_temp "
+                    + "is not true; using the default temperature settings");
+            temperature = TemperatureTuning.defaults();
+        }
+        Severity.TemperatureThresholds temperatureThresholds = TEMPERATURE_THRESHOLDS.read();
+        if (!temperatureThresholds.isOrdered()) {
+            EnviroMineRevived.LOGGER.warn("Server config: thresholds.body_temperature must be in order "
+                    + "(cold3 < cold2 < cold1 < hot1 < hot2 < hot3); using the defaults");
+            temperatureThresholds = Severity.TemperatureThresholds.defaults();
+        }
+        Severity.HydrationThresholds hydrationThresholds = HYDRATION_THRESHOLDS.read();
+        if (!hydrationThresholds.isOrdered()) {
+            EnviroMineRevived.LOGGER.warn("Server config: thresholds.hydration_levels must be in order "
+                    + "(level3 < level2 < level1); using the defaults");
+            hydrationThresholds = Severity.HydrationThresholds.defaults();
+        }
+
         return new Settings.Snapshot(
-                new TemperatureModel(TEMPERATURE.read()),
+                new TemperatureModel(temperature),
                 new HydrationModel(HYDRATION.read()),
-                TEMPERATURE_THRESHOLDS.read(),
-                HYDRATION_THRESHOLDS.read(),
+                temperatureThresholds,
+                hydrationThresholds,
                 water,
                 new Settings.Features(TEMPERATURE_ENABLED.get(), HYDRATION_ENABLED.get(),
                         EFFECTS_ENABLED.get(), DAMAGE_ENABLED.get(), DRINK_BY_HAND.get()));

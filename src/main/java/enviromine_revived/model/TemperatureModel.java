@@ -242,11 +242,19 @@ public final class TemperatureModel {
         }
         double multSum = 0;
         double addSum = 0;
+        double insulation = 0;
         for (ArmorModifier piece : env.armor()) {
             multSum += piece.mult(exposure) - 1.0;
             addSum += piece.add(exposure);
+            insulation += piece.insulation();
         }
-        return temp * (1.0 + multSum) + addSum;
+        temp = temp * (1.0 + multSum) + addSum;
+        // Insulation only closes the gap to comfortable; it never makes a warm place warmer.
+        double comfortable = t.comfortableAmbient();
+        if (insulation > 0 && temp < comfortable) {
+            temp = Math.min(comfortable, temp + insulation);
+        }
+        return temp;
     }
 
     /** 1 = no protection, 0 = full protection. */

@@ -253,6 +253,22 @@ class TemperatureModelTest {
         }
 
         @Test
+        void insulationWarmsTheColdButNeverPastComfortable() {
+            List<ArmorModifier> leather = List.of(ArmorModifier.insulating(3), ArmorModifier.insulating(3),
+                    ArmorModifier.insulating(3), ArmorModifier.insulating(3));
+            double comfortable = tuning.comfortableAmbient();
+
+            Environment.Builder cold = plainsNoon().biomeAmbient(0);
+            assertEquals(12.0, ambient(cold.armor(leather)), EPS);
+
+            Environment.Builder cool = plainsNoon().biomeAmbient(20);
+            assertEquals(comfortable, ambient(cool.armor(leather)), EPS);
+
+            // Regression test for the M5 balance pass: warm clothing must not heat you in a desert.
+            assertEquals(ambient(desertNoon()), ambient(desertNoon().armor(leather)), EPS);
+        }
+
+        @Test
         void usesSunShadeOrNightValue() {
             ArmorModifier piece = new ArmorModifier(3, 2, 1, 1, 1, 1);
             List<ArmorModifier> worn = List.of(piece);

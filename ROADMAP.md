@@ -10,7 +10,7 @@
 | M3 | HUD for both stats | done |
 | M4 | Water types, drinking, effects of extreme values | done |
 | M5 | Data-driven biome, block and armour modifiers; config | done |
-| M6 | Polish, balance, README, test checklist | |
+| M6 | Polish, balance, README, test checklist | done except the dedicated-server run |
 
 ## Possible later work (not in v1)
 
@@ -29,7 +29,6 @@ Other ideas:
 - Frostbite (gentler, never permanent)
 - Held items as heat sources (a torch in the hotbar), as in the original's item properties
 - Per-dimension temperature rules (the original's dimension properties)
-- Server-side validation of the config (for example cold thresholds in ascending order)
 - Camel pack / canteen
 - Per-dimension temperature rules
 - Compatibility with other mods' seasons or climate systems

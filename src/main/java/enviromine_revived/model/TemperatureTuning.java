@@ -122,6 +122,11 @@ public record TemperatureTuning(
                 multiplier);
     }
 
+    /** Normal body temperature must lie strictly between the limits. */
+    public boolean isConsistent() {
+        return minBodyTemp < normalBodyTemp && normalBodyTemp < maxBodyTemp;
+    }
+
     /** The ambient temperature at which body temperature settles at normal. */
     public double comfortableAmbient() {
         return normalBodyTemp - comfortOffset;

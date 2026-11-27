@@ -222,7 +222,7 @@ public final class ClimateGameTests {
         ArmorModifier leather = DataModifiers.armor(new ItemStack(Items.LEATHER_CHESTPLATE));
         ArmorModifier iron = DataModifiers.armor(new ItemStack(Items.IRON_HELMET));
         ArmorModifier stick = DataModifiers.armor(new ItemStack(Items.STICK));
-        helper.assertTrue(leather.nightAdd() == 3 && leather.shadeAdd() == 3 && leather.sunAdd() == 2,
+        helper.assertTrue(leather.insulation() == 3 && leather.sunAdd() == 0,
                 "leather " + leather);
         helper.assertTrue(iron.sunMult() == 1.1 && iron.nightAdd() == -1, "iron " + iron);
         helper.assertTrue(stick.equals(ArmorModifier.NONE), "stick " + stick);

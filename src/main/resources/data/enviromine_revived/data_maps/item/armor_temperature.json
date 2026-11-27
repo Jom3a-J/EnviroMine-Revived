@@ -1,9 +1,9 @@
 {
   "values": {
-    "minecraft:leather_helmet": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
-    "minecraft:leather_chestplate": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
-    "minecraft:leather_leggings": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
-    "minecraft:leather_boots": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
+    "minecraft:leather_helmet": { "insulation": 3 },
+    "minecraft:leather_chestplate": { "insulation": 3 },
+    "minecraft:leather_leggings": { "insulation": 3 },
+    "minecraft:leather_boots": { "insulation": 3 },
     "minecraft:iron_helmet": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
     "minecraft:iron_chestplate": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
     "minecraft:iron_leggings": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },

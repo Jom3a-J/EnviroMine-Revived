@@ -59,6 +59,15 @@ Structure and most numbers follow the original; these are the deliberate differe
   data packs in M5.
 - Netherite, chainmail, turtle and armadillo armour have no temperature effect yet.
 
+## Polish and balance (M6)
+
+- Balance pass with a simulated hour in typical biomes (docs/BALANCE.md). Temperate biomes never
+  cause a warning; leather switched to insulation after the simulation showed full leather made
+  temperate and desert play too hot.
+- Contradictory server config values (thresholds out of order, body limits around the normal
+  temperature) are replaced by their defaults with a warning in the log.
+- Credits list the original authors from the full commit history.
+
 ## Config and data packs (M5)
 
 - One server config file (instead of the original's many per-object config files) holds every
@@ -66,8 +75,9 @@ Structure and most numbers follow the original; these are the deliberate differe
   It reloads without a restart and is sent to clients, so the HUD matches the server.
 - Block, armour and biome values are NeoForge data maps in data packs, replacing the original's
   BlockProperties, ArmorProperties and BiomeProperties config files. Entries accept tags.
-- Leather armour is warmer than in the original (+2 in the sun, +3 in the shade and at night per
-  piece, instead of +1), so cold biomes are survivable for longer with leather.
+- Leather armour insulates instead of adding flat warmth (the original gave +1 per piece in all
+  conditions, including deserts): 3 per piece, only while colder than comfortable, never past it.
+  See docs/BALANCE.md.
 - Any item worn in an armour slot can have a temperature entry, not only armour.
 - Not ported: per-dimension properties, item properties (held items as heat sources), entity
   properties. See ROADMAP.md.

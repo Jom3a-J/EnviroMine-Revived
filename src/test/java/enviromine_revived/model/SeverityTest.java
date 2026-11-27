@@ -16,6 +16,16 @@ class SeverityTest {
         assertEquals(expected, Severity.temperature(body, Severity.TemperatureThresholds.defaults()));
     }
 
+    @org.junit.jupiter.api.Test
+    void orderChecks() {
+        org.junit.jupiter.api.Assertions.assertTrue(Severity.TemperatureThresholds.defaults().isOrdered());
+        org.junit.jupiter.api.Assertions.assertTrue(Severity.HydrationThresholds.defaults().isOrdered());
+        org.junit.jupiter.api.Assertions.assertFalse(new Severity.TemperatureThresholds(32, 35, 30, 39, 41, 43).isOrdered());
+        org.junit.jupiter.api.Assertions.assertFalse(new Severity.TemperatureThresholds(35, 32, 30, 34, 41, 43).isOrdered());
+        org.junit.jupiter.api.Assertions.assertFalse(new Severity.HydrationThresholds(10, 30, 0).isOrdered());
+        org.junit.jupiter.api.Assertions.assertTrue(TemperatureTuning.defaults().isConsistent());
+    }
+
     @ParameterizedTest
     @CsvSource({"100, 0", "30.01, 0", "30, 1", "10.5, 1", "10, 2", "0.01, 2", "0, 3"})
     void hydrationLevels(double hydration, int expected) {
