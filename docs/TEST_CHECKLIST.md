@@ -53,6 +53,6 @@ Config
 ## Before publishing
 
 - [ ] Licence confirmed by the original authors (see docs/LICENSE_NOTES.md)
-- [ ] Final mod name and id chosen (still the placeholder `enviromine_revived`)
+- [x] Final mod name and id chosen: EnviroMine Revived (`enviromine_revived`)
 - [ ] Credits checked against the original project's member list
 - [ ] Version number set; CHANGES.md up to date

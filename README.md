@@ -1,11 +1,11 @@
-# EnviroMine Revived (working title)
+# EnviroMine Revived
 
 A small, vanilla-plus survival addition for **Minecraft 1.21.1 (NeoForge)**: body temperature and
 hydration (thirst). It is a port of the temperature and hydration systems from the abandoned
 EnviroMine mod for Minecraft 1.7.10, rebuilt for modern Minecraft with gentler defaults.
 
-> Status: v1 feature complete, not released. The name is a placeholder, and the licence is
-> waiting for confirmation from the original authors (see docs/LICENSE_NOTES.md).
+> Status: v1 feature complete, not released. The licence is waiting for confirmation from the
+> original authors (see docs/LICENSE_NOTES.md).
 
 ## Features
 
