@@ -41,6 +41,16 @@ Requires JDK 21.
 ./gradlew runServer          # dev dedicated server
 ```
 
+## How it plays
+
+- **Drinking:** right-click water with an empty hand for a sip, or a water cauldron (lowers it by
+  one level). Water bottles work too and restore more.
+- **Water types:** swamp water and deep cave water are dirty (may cause Hunger or Poison), ocean
+  and beach water is salty (makes you thirsty), snowy or high-mountain water is cold (cools you
+  more). Boil it: a cauldron over a campfire, fire, magma or lava always gives clean water.
+- **Levels:** level 1 is a warning; level 2 gives Heatstroke, Hypothermia or Dehydration; level 3
+  also deals slow damage, with the same difficulty limits as starvation.
+
 ## Testing in game
 
 - Press **F3**: the left side shows an `[EnviroMine]` line with body temperature, hydration and

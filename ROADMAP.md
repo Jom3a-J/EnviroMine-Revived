@@ -8,7 +8,7 @@
 | M1 | Pure-Java temperature and hydration model with unit tests | done |
 | M2 | Player stat storage, server tick logic, client sync | done |
 | M3 | HUD for both stats | done |
-| M4 | Water types, drinking, effects of extreme values | |
+| M4 | Water types, drinking, effects of extreme values | done (in-game check pending) |
 | M5 | Data-driven biome, block and armour modifiers; config | |
 | M6 | Polish, balance, README, test checklist | |
 

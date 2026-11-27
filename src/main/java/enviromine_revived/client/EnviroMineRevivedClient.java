@@ -23,5 +23,8 @@ public final class EnviroMineRevivedClient {
 
         modEventBus.addListener(ClimateHud::register);
         NeoForge.EVENT_BUS.addListener(ClimateDebugText::onDebugText);
+        NeoForge.EVENT_BUS.addListener(ClientDrinking::onRightClickEmpty);
+        NeoForge.EVENT_BUS.addListener(ClientDrinking::onRightClickBlock);
+        NeoForge.EVENT_BUS.addListener(ClientDrinking::onTooltip);
     }
 }

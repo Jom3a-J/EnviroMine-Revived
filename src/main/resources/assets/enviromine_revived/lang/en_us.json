@@ -1,6 +1,29 @@
 {
   "commands.enviromine_revived.show": "%s: body %s °C (heading for %s, ambient %s °C, heat level %s), hydration %s (thirst level %s)",
 
+  "effect.enviromine_revived.heatstroke": "Heatstroke",
+  "effect.enviromine_revived.hypothermia": "Hypothermia",
+  "effect.enviromine_revived.dehydration": "Dehydration",
+  "effect.enviromine_revived.thirst": "Thirst",
+
+  "enviromine_revived.warning.hot.1": "You are getting hot",
+  "enviromine_revived.warning.hot.2": "You are overheating. Find shade or water",
+  "enviromine_revived.warning.hot.3": "Heatstroke! Cool down now",
+  "enviromine_revived.warning.cold.1": "You are getting cold",
+  "enviromine_revived.warning.cold.2": "You are freezing. Find warmth",
+  "enviromine_revived.warning.cold.3": "Hypothermia! Warm up now",
+  "enviromine_revived.warning.thirst.1": "You are thirsty",
+  "enviromine_revived.warning.thirst.2": "You are parched. Drink something",
+  "enviromine_revived.warning.thirst.3": "You are dehydrated!",
+
+  "death.attack.enviromine_revived.heatstroke": "%1$s died of heatstroke",
+  "death.attack.enviromine_revived.hypothermia": "%1$s froze to death",
+  "death.attack.enviromine_revived.dehydration": "%1$s died of thirst",
+
+  "item.enviromine_revived.water_type.dirty": "Dirty water",
+  "item.enviromine_revived.water_type.salty": "Salt water",
+  "item.enviromine_revived.water_type.cold": "Cold water",
+
   "enviromine_revived.configuration.title": "EnviroMine Revived",
   "enviromine_revived.configuration.hud": "HUD",
   "enviromine_revived.configuration.hud.tooltip": "Where and how the temperature and hydration display is drawn.",

@@ -78,15 +78,21 @@ public final class HydrationModel {
         return new Step(next, bodyChange);
     }
 
+    /** A sip straight from water or a cauldron. */
+    public Drink drink(double hydration, double bodyTemp, WaterType.Properties water,
+                       RandomGenerator random) {
+        return drink(hydration, bodyTemp, water, false, random);
+    }
+
     /**
      * Drinking once.
      *
-     * @param random source for the effect rolls (Minecraft's RandomSource is adapted to this in M4;
-     *               tests pass a seeded generator)
+     * @param fromBottle a whole bottle restores more than a sip
+     * @param random     source for the effect rolls (tests pass a seeded generator)
      */
     public Drink drink(double hydration, double bodyTemp, WaterType.Properties water,
-                       RandomGenerator random) {
-        double next = clamp(hydration + water.hydration());
+                       boolean fromBottle, RandomGenerator random) {
+        double next = clamp(hydration + water.hydration(fromBottle));
         double bodyChange = 0;
         if (bodyTemp >= water.coolOnlyAbove()) {
             // Never cool below the threshold by drinking.

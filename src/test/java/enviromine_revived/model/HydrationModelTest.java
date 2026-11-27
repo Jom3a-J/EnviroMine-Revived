@@ -109,8 +109,20 @@ class HydrationModelTest {
     @Test
     void saltyWaterGivesLessAndCausesThirst() {
         HydrationModel.Drink d = model.drink(50, 37, WaterType.SALTY.defaults(), new SplittableRandom(1));
-        assertTrue(d.hydration() - 50 < WaterType.CLEAN.defaults().hydration());
+        assertTrue(d.hydration() - 50 < WaterType.CLEAN.defaults().sipHydration());
         assertTrue(d.thirstSeconds() > 0);
+    }
+
+    @Test
+    void aBottleRestoresMoreThanASip() {
+        for (WaterType type : WaterType.values()) {
+            double sip = model.drink(10, 37, type.defaults(), false, new SplittableRandom(1)).hydration();
+            double bottle = model.drink(10, 37, type.defaults(), true, new SplittableRandom(1)).hydration();
+            assertTrue(bottle > sip, type.name());
+        }
+        // Original values: 25 per bottle, 10 for salty.
+        assertEquals(35, model.drink(10, 37, WaterType.CLEAN.defaults(), true, new SplittableRandom(1)).hydration(), EPS);
+        assertEquals(20, model.drink(10, 37, WaterType.SALTY.defaults(), true, new SplittableRandom(1)).hydration(), EPS);
     }
 
     @Test

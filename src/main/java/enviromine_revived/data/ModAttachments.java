@@ -35,6 +35,13 @@ public final class ModAttachments {
                     .build());
 
     /**
+     * Game time until which the player cannot take another sip. Server only: not saved (a
+     * fraction of a second does not need to survive a restart) and not synced.
+     */
+    public static final Supplier<AttachmentType<Long>> DRINK_COOLDOWN = ATTACHMENT_TYPES.register("drink_cooldown",
+            () -> AttachmentType.builder(() -> 0L).build());
+
+    /**
      * Only the owning player, and only if their connection can receive NeoForge's attachment
      * sync packet. Without the second check, a connection that never negotiated that channel
      * (a vanilla client, or the fake players used by GameTests) would raise an error on every

@@ -59,8 +59,22 @@ Structure and most numbers follow the original; these are the deliberate differe
   data packs in M5.
 - Netherite, chainmail, turtle and armadillo armour have no temperature effect yet.
 
-## Still to come
+## Water and effects (M4)
 
-- Fix: surface water is no longer almost always "dirty" (the original compared height with
-  sea level / 0.75 instead of × 0.75). Lands with water types in M4.
-- Gentler effects of extreme values (see docs/ORIGINAL_FEATURES.md, last section). Lands in M4.
+- No new bottle items: a vanilla water bottle filled from dirty, salty or cold water is marked
+  with its type (shown in the tooltip). Clean bottles stay identical to vanilla ones.
+- Fix: surface water is no longer almost always dirty (the original compared height with
+  sea level / 0.75 instead of × 0.75). Water below y ≈ 47 still counts as stagnant cave water.
+- Dirty water comes from swamps (biome tags) instead of swamps, jungles and "bad-looking" water.
+- Drinking a water bottle gives 25 hydration (10 for salt water), a sip 10 (5), as in the original;
+  sips have a short cooldown.
+- Salt water's Thirst effect costs about 8 hydration over 30 s (the original cost about 20).
+- Dirty water: Poison lasts 5 s (original 10 s) and happens 10 % of the time (original 25 %).
+- Level 1 is now a warning only (HUD colour and an action-bar message). Effects start at level 2:
+  Heatstroke, Hypothermia and Dehydration with mild attribute penalties instead of the original's
+  Weakness, Mining Fatigue, Hunger and Nausea.
+- Damage only at level 3: half a heart every 4.5 s, following vanilla starvation's difficulty
+  limits (none on Peaceful, stops at 5 hearts on Easy and half a heart on Normal). The original
+  dealt 2 hearts every 1.5 s, at any difficulty.
+- Removed: frostbite (permanent in the original), random item dropping, setting players on fire
+  at high body temperature, nausea, the fake-death screen.

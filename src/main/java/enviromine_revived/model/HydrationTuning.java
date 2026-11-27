@@ -22,7 +22,9 @@ public record HydrationTuning(
         /** Extra drain while the vanilla Hunger effect is active. */
         double hungerEffectDrain,
         /** Global multiplier on all drains (original config: hydrationMult). */
-        double drainMultiplier
+        double drainMultiplier,
+        /** Extra drain per update and per level of the Thirst effect (from salt water). */
+        double thirstEffectDrain
 ) {
     public static HydrationTuning defaults() {
         return new HydrationTuning(
@@ -36,7 +38,10 @@ public record HydrationTuning(
                 0.05,   // nearLavaDrain
                 0.05,   // aridDayDrain
                 0.1,    // hungerEffectDrain
-                1.0     // drainMultiplier
+                1.0,    // drainMultiplier
+                // thirstEffectDrain (original: 1 per update and level, so one salty sip cost ~20;
+                // now 30 s of Thirst costs ~8, a little more than the sip gave)
+                0.4
         );
     }
 
@@ -44,6 +49,6 @@ public record HydrationTuning(
     public HydrationTuning withDrainMultiplier(double multiplier) {
         return new HydrationTuning(max, baseDrain, sweatBodyTemp, sweatDrain, sweatCooling,
                 sweatCoolingMinHydration, sprintDrain, nearLavaDrain, aridDayDrain, hungerEffectDrain,
-                multiplier);
+                multiplier, thirstEffectDrain);
     }
 }
