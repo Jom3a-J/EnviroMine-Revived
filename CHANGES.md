@@ -14,10 +14,40 @@ Minecraft 1.7.10, commit `1652062` (2015-12-07) of https://github.com/EnviroMine
   as is: the formulas are re-implemented in new code, so this is a new implementation based on the
   original's design and numbers.
 
-## Planned behaviour changes (will be filled in as each milestone lands)
+## Model (M1, `enviromine_revived.model`)
 
-- Fix: cold biomes no longer come out warmer than mild ones (sign error in the original's biome
-  temperature formula).
+The temperature and hydration rules are re-implemented as plain Java classes with unit tests.
+Structure and most numbers follow the original; these are the deliberate differences.
+
+### Bug fixes
+
+- Cold biomes no longer come out warmer than mild ones (the original's biome formula multiplied a
+  negative sine by a negative minimum).
+- The hydration multiplier is applied once to activity drain (the original applied it twice).
+
+### Behaviour changes
+
+- Rain only cools you while you are out in it, not under a roof.
+- Fire Resistance and Fire Protection act on heat above the *comfortable* ambient (25 °C).
+  The original capped ambient at 37 °C, which still gave a target body temperature of 49 °C.
+- Body temperature is clamped to 20–50 °C (the original had no limits).
+- Cold water no longer cools a body that is already cold (the original cooled down to 30 °C).
+- The hydration multiplier no longer scales how much a drink restores.
+
+### Gentler defaults (all tunable; original value in brackets)
+
+| Setting | Default | Original |
+|---|---|---|
+| Deep cave temperature | 24 °C | 30 °C (gave heatstroke deep underground) |
+| High-altitude cooling starts / is full at | y 120 / y 320 | y 90 / y 256 |
+| Rain cooling | 6 | 10 |
+| Night cooling | 8 | 10 |
+| Extra night cooling in arid biomes | 15 | 30 |
+| Base hydration drain per 1.5 s | 0.04 (~62 min full to empty) | 0.05 (~50 min) |
+| Dirty water poison chance | 10 % | 25 % |
+
+## Still to come
+
 - Fix: surface water is no longer almost always "dirty" (the original compared height with
-  sea level / 0.75 instead of × 0.75).
-- Gentler defaults for vanilla-plus play (see docs/ORIGINAL_FEATURES.md, last section).
+  sea level / 0.75 instead of × 0.75). Lands with water types in M4.
+- Gentler effects of extreme values (see docs/ORIGINAL_FEATURES.md, last section). Lands in M4.

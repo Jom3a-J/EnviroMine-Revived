@@ -4,8 +4,8 @@
 
 | Milestone | Content | Status |
 |---|---|---|
-| M0 | Empty mod loads; licence and credits | in progress |
-| M1 | Pure-Java temperature and hydration model with unit tests | |
+| M0 | Empty mod loads; licence and credits | done |
+| M1 | Pure-Java temperature and hydration model with unit tests | done |
 | M2 | Player stat storage, server tick logic, client sync | |
 | M3 | HUD for both stats | |
 | M4 | Water types, drinking, effects of extreme values | |
