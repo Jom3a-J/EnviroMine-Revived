@@ -3,8 +3,14 @@
 Required by CC BY-NC-SA 4.0 ("indicate if changes were made"). The original is EnviroMine for
 Minecraft 1.7.10, commit `1652062` (2015-12-07) of https://github.com/EnviroMine/EnviroMine-1.7.
 
-This file describes version **1.0.0** (Minecraft 1.21.1, NeoForge 21.1.267), the first release of
-the port. Everything below is what differs from the original.
+This file describes version **1.0.1** (Minecraft 1.21.1, NeoForge 21.1.267). Everything below is
+what differs from the original.
+
+## Release history
+
+- **1.0.1:** the in-game mod list links to the GitHub repository, and crash reports point to its
+  issue tracker. No gameplay changes.
+- **1.0.0:** first release of the port.
 
 ## Scope
 

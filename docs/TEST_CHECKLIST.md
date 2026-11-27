@@ -55,4 +55,4 @@ Config
 - [x] Licence: the author's CurseForge page invites updates; source is CC BY-NC-SA 4.0 (docs/LICENSE_NOTES.md)
 - [x] Final mod name and id chosen: EnviroMine Revived (`enviromine_revived`)
 - [x] Credits checked against the original project's member list (Timbucktato added)
-- [x] Version number set (1.0.0); CHANGES.md up to date
+- [x] Version number set (1.0.1); CHANGES.md up to date

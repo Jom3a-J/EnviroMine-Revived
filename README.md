@@ -4,7 +4,7 @@ A small, vanilla-plus survival addition for **Minecraft 1.21.1 (NeoForge)**: bod
 hydration (thirst). It is a port of the temperature and hydration systems from the abandoned
 EnviroMine mod for Minecraft 1.7.10, rebuilt for modern Minecraft with gentler defaults.
 
-> Status: 1.0.0, feature complete. The original author's CurseForge page invites updates and puts the
+> Status: 1.0.1, feature complete. The original author's CurseForge page invites updates and puts the
 > source under CC BY-NC-SA 4.0 (see docs/LICENSE_NOTES.md).
 
 ## Links

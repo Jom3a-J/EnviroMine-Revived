@@ -1,6 +1,6 @@
 # Roadmap
 
-## v1 (1.0.0: feature complete, not yet published)
+## v1 (1.0.0 released; 1.0.1 adds metadata links)
 
 | Milestone | Content | Status |
 |---|---|---|
