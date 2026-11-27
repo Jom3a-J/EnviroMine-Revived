@@ -4,13 +4,18 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import enviromine_revived.config.ServerConfig;
+import enviromine_revived.config.Settings;
 import enviromine_revived.data.ModAttachments;
 import enviromine_revived.network.DrinkPayload;
 import enviromine_revived.registry.ModComponents;
+import enviromine_revived.registry.ModDataMaps;
 import enviromine_revived.registry.ModEffects;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
@@ -35,6 +40,13 @@ public final class EnviroMineRevived {
         ModComponents.COMPONENTS.register(modEventBus);
         ModEffects.EFFECTS.register(modEventBus);
         modEventBus.addListener(EnviroMineRevived::registerPayloads);
+        modEventBus.addListener(ModDataMaps::register);
+
+        // Per-world gameplay settings, synced to clients. Reloaded live when the file changes.
+        modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
+        modEventBus.addListener(ModConfigEvent.Loading.class, Settings::onConfigEvent);
+        modEventBus.addListener(ModConfigEvent.Reloading.class, Settings::onConfigEvent);
+        modEventBus.addListener(ModConfigEvent.Unloading.class, Settings::onConfigEvent);
 
         NeoForge.EVENT_BUS.addListener(ClimateTicker::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(ClimateCommand::register);

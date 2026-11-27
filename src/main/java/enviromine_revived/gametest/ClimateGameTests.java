@@ -6,12 +6,18 @@ import com.mojang.serialization.JsonOps;
 import enviromine_revived.ClimateTicker;
 import enviromine_revived.Drinking;
 import enviromine_revived.EnviroMineRevived;
+import enviromine_revived.config.Settings;
 import enviromine_revived.data.ClimateData;
 import enviromine_revived.data.ModAttachments;
 import enviromine_revived.model.WaterType;
 import enviromine_revived.registry.ModEffects;
+import enviromine_revived.model.ArmorModifier;
+import enviromine_revived.world.DataModifiers;
 import enviromine_revived.world.EnvironmentSampler;
 import enviromine_revived.world.WaterSources;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -57,13 +63,13 @@ public final class ClimateGameTests {
         helper.setBlock(5, 1, 3, Blocks.LAVA);
         ServerPlayer player = playerAt(helper, 2.5, 1, 3.5);
 
-        EnvironmentSampler.Sample sample = EnvironmentSampler.sample(player, ClimateTicker.TEMPERATURE);
+        EnvironmentSampler.Sample sample = EnvironmentSampler.sample(player, Settings.get().temperature());
         helper.assertTrue(sample.environment().nearLava(), "lava 3 blocks away was not detected");
         helper.assertTrue(sample.environment().heatSourceTemp() > 100,
                 "heat source " + sample.environment().heatSourceTemp());
 
-        ClimateData next = ClimateTicker.next(player, ClimateData.DEFAULT, false);
-        double idleDrain = ClimateTicker.HYDRATION.tuning().baseDrain();
+        ClimateData next = ClimateTicker.next(player, ClimateData.DEFAULT, false, Settings.get());
+        double idleDrain = Settings.get().hydration().tuning().baseDrain();
         helper.assertTrue(next.bodyTemp() > ClimateData.DEFAULT.bodyTemp(), "body did not warm: " + next);
         helper.assertTrue(next.ambient() > 60, "ambient " + next.ambient());
         helper.assertTrue(next.hydration() < ClimateData.DEFAULT.hydration() - idleDrain,
@@ -78,9 +84,9 @@ public final class ClimateGameTests {
         ServerPlayer player = playerAt(helper, 2.5, 1, 3.5);
 
         helper.setBlock(4, 1, 3, Blocks.FURNACE.defaultBlockState());
-        double unlit = EnvironmentSampler.sample(player, ClimateTicker.TEMPERATURE).environment().heatSourceTemp();
+        double unlit = EnvironmentSampler.sample(player, Settings.get().temperature()).environment().heatSourceTemp();
         helper.setBlock(4, 1, 3, Blocks.FURNACE.defaultBlockState().setValue(BlockStateProperties.LIT, true));
-        double lit = EnvironmentSampler.sample(player, ClimateTicker.TEMPERATURE).environment().heatSourceTemp();
+        double lit = EnvironmentSampler.sample(player, Settings.get().temperature()).environment().heatSourceTemp();
 
         helper.assertTrue(unlit == 0, "unlit furnace gave heat " + unlit);
         helper.assertTrue(lit > 0, "lit furnace gave no heat");
@@ -95,7 +101,7 @@ public final class ClimateGameTests {
         ServerPlayer player = playerAt(helper, 2.5, 1, 3.5);
         ClimateData before = new ClimateData(36.0, 42.0, 0.0);
 
-        ClimateData after = ClimateTicker.next(player, before, true);
+        ClimateData after = ClimateTicker.next(player, before, true, Settings.get());
         helper.assertTrue(after.bodyTemp() == before.bodyTemp() && after.hydration() == before.hydration(),
                 "frozen stats changed: " + after);
         helper.assertTrue(after.ambient() > 60, "ambient not updated: " + after);
@@ -150,7 +156,7 @@ public final class ClimateGameTests {
 
         Drinking.drink(player, WaterType.CLEAN, true);
         double afterBottle = player.getData(ModAttachments.CLIMATE).hydration();
-        helper.assertTrue(afterBottle == 50 + WaterType.CLEAN.defaults().bottleHydration(), "after bottle " + afterBottle);
+        helper.assertTrue(afterBottle == 50 + Settings.get().water(WaterType.CLEAN).bottleHydration(), "after bottle " + afterBottle);
 
         Drinking.drink(player, WaterType.SALTY, false);
         helper.assertTrue(player.hasEffect(ModEffects.THIRST), "salt water should cause Thirst");
@@ -164,17 +170,17 @@ public final class ClimateGameTests {
         ServerPlayer player = playerAt(helper, 2.5, 1, 3.5);
         ClimateData fine = new ClimateData(37, 100, 25);
 
-        ClimateTicker.applyConsequences(player, fine, new ClimateData(39.5, 100, 25)); // level 1: warning only
+        ClimateTicker.applyConsequences(player, fine, new ClimateData(39.5, 100, 25), Settings.get()); // level 1: warning only
         helper.assertFalse(player.hasEffect(ModEffects.HEATSTROKE), "level 1 should not give Heatstroke");
 
-        ClimateTicker.applyConsequences(player, fine, new ClimateData(41.5, 100, 25)); // level 2
+        ClimateTicker.applyConsequences(player, fine, new ClimateData(41.5, 100, 25), Settings.get()); // level 2
         MobEffectInstance heat = player.getEffect(ModEffects.HEATSTROKE);
         helper.assertTrue(heat != null && heat.getAmplifier() == 0, "level 2 should give Heatstroke I, got " + heat);
 
-        ClimateTicker.applyConsequences(player, fine, new ClimateData(31, 100, 25)); // cold level 2
+        ClimateTicker.applyConsequences(player, fine, new ClimateData(31, 100, 25), Settings.get()); // cold level 2
         helper.assertTrue(player.hasEffect(ModEffects.HYPOTHERMIA), "31 °C should give Hypothermia");
 
-        ClimateTicker.applyConsequences(player, fine, new ClimateData(37, 5, 25)); // thirst level 2
+        ClimateTicker.applyConsequences(player, fine, new ClimateData(37, 5, 25), Settings.get()); // thirst level 2
         helper.assertTrue(player.hasEffect(ModEffects.DEHYDRATION), "hydration 5 should give Dehydration");
 
         removePlayer(helper, player);
@@ -185,13 +191,46 @@ public final class ClimateGameTests {
     public static void fireResistancePreventsHeatstroke(GameTestHelper helper) {
         ServerPlayer player = playerAt(helper, 2.5, 1, 3.5);
         ClimateData fine = new ClimateData(37, 100, 25);
-        ClimateTicker.applyConsequences(player, fine, new ClimateData(44, 100, 25));
+        ClimateTicker.applyConsequences(player, fine, new ClimateData(44, 100, 25), Settings.get());
         helper.assertTrue(player.hasEffect(ModEffects.HEATSTROKE), "44 °C should give Heatstroke");
 
         player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200));
-        ClimateTicker.applyConsequences(player, fine, new ClimateData(44, 100, 25));
+        ClimateTicker.applyConsequences(player, fine, new ClimateData(44, 100, 25), Settings.get());
         helper.assertFalse(player.hasEffect(ModEffects.HEATSTROKE), "Fire Resistance should remove Heatstroke");
 
+        removePlayer(helper, player);
+        helper.succeed();
+    }
+
+    // ------------------------------------------------------------------------------------------
+    // M5: data maps
+    // ------------------------------------------------------------------------------------------
+
+    @GameTest(template = "empty")
+    public static void blockHeatComesFromTheDataMap(GameTestHelper helper) {
+        double torch = DataModifiers.blockTemperature(Blocks.TORCH.defaultBlockState());
+        double lava = DataModifiers.blockTemperature(Blocks.LAVA.defaultBlockState());
+        double ice = DataModifiers.blockTemperature(Blocks.BLUE_ICE.defaultBlockState());
+        double stone = DataModifiers.blockTemperature(Blocks.STONE.defaultBlockState());
+        helper.assertTrue(torch == 30 && lava == 200 && ice < 0 && stone == 0,
+                "torch " + torch + ", lava " + lava + ", blue ice " + ice + ", stone " + stone);
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty")
+    public static void armourComesFromTheDataMap(GameTestHelper helper) {
+        ArmorModifier leather = DataModifiers.armor(new ItemStack(Items.LEATHER_CHESTPLATE));
+        ArmorModifier iron = DataModifiers.armor(new ItemStack(Items.IRON_HELMET));
+        ArmorModifier stick = DataModifiers.armor(new ItemStack(Items.STICK));
+        helper.assertTrue(leather.nightAdd() == 3 && leather.shadeAdd() == 3 && leather.sunAdd() == 2,
+                "leather " + leather);
+        helper.assertTrue(iron.sunMult() == 1.1 && iron.nightAdd() == -1, "iron " + iron);
+        helper.assertTrue(stick.equals(ArmorModifier.NONE), "stick " + stick);
+
+        ServerPlayer player = playerAt(helper, 2.5, 1, 3.5);
+        player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
+        EnvironmentSampler.Sample sample = EnvironmentSampler.sample(player, Settings.get().temperature());
+        helper.assertTrue(sample.environment().armor().size() == 1, "worn armour not sampled");
         removePlayer(helper, player);
         helper.succeed();
     }

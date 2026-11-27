@@ -36,13 +36,13 @@ public enum WaterType {
      * @param thirstSeconds   seconds of the Thirst effect (faster hydration loss); 0 for none
      */
     public record Properties(
-            double sipHydration,
-            double bottleHydration,
-            double cooling,
-            double coolOnlyAbove,
-            double hungerChance,
-            double poisonChance,
-            int thirstSeconds
+            @Doc(value = "Hydration from a sip of this water.", min = 0, max = 10000) double sipHydration,
+            @Doc(value = "Hydration from a bottle of this water.", min = 0, max = 10000) double bottleHydration,
+            @Doc(value = "Body temperature removed per drink...", min = 0, max = 100) double cooling,
+            @Doc(value = "...but only while the body is at least this warm.", min = 0, max = 100) double coolOnlyAbove,
+            @Doc(value = "Chance (0 to 1) of the Hunger effect.", min = 0, max = 1) double hungerChance,
+            @Doc(value = "Chance (0 to 1) of the Poison effect.", min = 0, max = 1) double poisonChance,
+            @Doc(value = "Seconds of the Thirst effect (faster hydration loss). 0 for none.", min = 0, max = 3600) int thirstSeconds
     ) {
         public double hydration(boolean fromBottle) {
             return fromBottle ? bottleHydration : sipHydration;

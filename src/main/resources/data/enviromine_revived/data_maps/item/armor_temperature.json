@@ -1,0 +1,20 @@
+{
+  "values": {
+    "minecraft:leather_helmet": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
+    "minecraft:leather_chestplate": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
+    "minecraft:leather_leggings": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
+    "minecraft:leather_boots": { "sun_add": 2, "shade_add": 3, "night_add": 3 },
+    "minecraft:iron_helmet": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
+    "minecraft:iron_chestplate": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
+    "minecraft:iron_leggings": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
+    "minecraft:iron_boots": { "sun_add": 2, "night_add": -1, "sun_mult": 1.1 },
+    "minecraft:golden_helmet": { "sun_add": 2.5, "sun_mult": 1.2 },
+    "minecraft:golden_chestplate": { "sun_add": 2.5, "sun_mult": 1.2 },
+    "minecraft:golden_leggings": { "sun_add": 2.5, "sun_mult": 1.2 },
+    "minecraft:golden_boots": { "sun_add": 2.5, "sun_mult": 1.2 },
+    "minecraft:diamond_helmet": { "sun_mult": 0.9 },
+    "minecraft:diamond_chestplate": { "sun_mult": 0.9 },
+    "minecraft:diamond_leggings": { "sun_mult": 0.9 },
+    "minecraft:diamond_boots": { "sun_mult": 0.9 }
+  }
+}

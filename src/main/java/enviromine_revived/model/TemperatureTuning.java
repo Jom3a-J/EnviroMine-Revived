@@ -6,74 +6,57 @@ package enviromine_revived.model;
  *
  * <p>{@link #defaults()} gives the gentle vanilla-plus defaults. Where a default differs from the
  * original EnviroMine value, the original is given in the comment so the change is easy to undo.
- * In M5 these values will come from the server config file instead.
+ * Each component's {@link Doc} becomes an entry in the server config.
  */
 public record TemperatureTuning(
         // --- Body ---
-        /** Body temperature everyone starts at and the model treats as healthy. */
-        double normalBodyTemp,
-        /** Body temperature settles at ambient + this. With 12, an ambient of 25 is comfortable. */
-        double comfortOffset,
-        /** Hard limits so a bug or extreme modifier can never produce absurd values. */
-        double minBodyTemp,
-        double maxBodyTemp,
+        @Doc(value = "Healthy body temperature.", min = 30, max = 45) double normalBodyTemp,
+        @Doc(value = "Body temperature settles at ambient + this. With 12, an ambient of 25 is comfortable.", min = 0, max = 40) double comfortOffset,
+        @Doc(value = "Lowest possible body temperature.", min = 0, max = 37) double minBodyTemp,
+        @Doc(value = "Highest possible body temperature.", min = 37, max = 100) double maxBodyTemp,
 
         // --- Biome ---
-        /** Ambient temperature for the hottest vanilla biome temperature (2.0, desert). */
-        double biomeHotMax,
-        /** Ambient temperature for the coldest vanilla biome temperature (-2.0 and below). */
-        double biomeColdMin,
+        @Doc("Ambient temperature of the hottest vanilla biomes (biome temperature 2.0).") double biomeHotMax,
+        @Doc("Ambient temperature of the coldest vanilla biomes (biome temperature -2.0).") double biomeColdMin,
 
         // --- Altitude ---
-        /** Ambient that deep underground is pulled towards (only ever warms, like the original). */
-        double undergroundTemp,
-        double undergroundStartY,
-        double undergroundFullY,
-        /** Ambient that very high places are pulled towards (only ever cools). */
-        double highAltitudeTemp,
-        double highAltitudeStartY,
-        double highAltitudeFullY,
+        @Doc("Deep underground is pulled towards this ambient temperature (it only ever warms).") double undergroundTemp,
+        @Doc(value = "Height where the underground effect starts.", min = -2048, max = 2048) double undergroundStartY,
+        @Doc(value = "Height where the underground effect is complete.", min = -2048, max = 2048) double undergroundFullY,
+        @Doc("High places are pulled towards this ambient temperature (it only ever cools).") double highAltitudeTemp,
+        @Doc(value = "Height where high-altitude cooling starts.", min = -2048, max = 2048) double highAltitudeStartY,
+        @Doc(value = "Height where high-altitude cooling is complete.", min = -2048, max = 2048) double highAltitudeFullY,
 
-        // --- Weather, time and activity (subtracted from or added to ambient) ---
-        double rainCooling,
-        double shadeCooling,
-        double nightCooling,
-        /** Extra night cooling in biomes without precipitation (deserts get cold at night). */
-        double aridNightExtraCooling,
-        /** Values above 1 make the hottest and coldest parts of the day plateau. */
-        double dayCurveScale,
-        /** Shifts the daily curve so the warmest point is after noon, in degrees of the day cycle. */
-        double dayCurveOffsetDegrees,
-        double sleepingWarmth,
-        double sprintingWarmth,
-        /** Nearby warm-blooded mobs warm you if you are colder than their body temp minus this. */
-        double huddleOffset,
+        // --- Weather, time and activity ---
+        @Doc("Cooling while out in the rain.") double rainCooling,
+        @Doc("Cooling in the shade during the day.") double shadeCooling,
+        @Doc("Cooling at the coldest part of the night.") double nightCooling,
+        @Doc("Extra night cooling in biomes without rain (deserts get cold at night).") double aridNightExtraCooling,
+        @Doc(value = "Values above 1 make the warmest and coldest parts of the day last longer.", min = 0.1, max = 10) double dayCurveScale,
+        @Doc(value = "Shifts the warmest point of the day after noon, in degrees of the day cycle.", min = -180, max = 180) double dayCurveOffsetDegrees,
+        @Doc("Warmth while sleeping in a bed.") double sleepingWarmth,
+        @Doc("Warmth while sprinting.") double sprintingWarmth,
+        @Doc("Nearby animals warm you if you are colder than their body temperature minus this.") double huddleOffset,
 
         // --- Water, fire, lava ---
-        /** In water, any ambient above this is reduced to it... */
-        double waterCoolCap,
-        /** ...unless it is above waterCoolCap + this, in which case this much is subtracted. */
-        double waterHotReduction,
-        double lavaTemp,
-        double burningMinTemp,
-        /** Fire Protection levels (summed over armour) that would fully cancel heat. */
-        double fireProtectionLevelsForFull,
+        @Doc("In water, warmer ambient temperatures are reduced to this...") double waterCoolCap,
+        @Doc("...unless they are this much hotter still, in which case this much is subtracted.") double waterHotReduction,
+        @Doc("Ambient temperature while standing in lava.") double lavaTemp,
+        @Doc("Minimum ambient temperature while on fire.") double burningMinTemp,
+        @Doc(value = "Fire Protection levels (summed over armour) that cancel all heat.", min = 1, max = 1000) double fireProtectionLevelsForFull,
 
         // --- Drift rates (degrees per update, before amplification) ---
-        double baseRate,
-        double exposedRainRate,
-        double waterRate,
-        /** Used when a heat source is more than strongHeatMargin warmer than ambient. */
-        double strongHeatRate,
-        double strongHeatMargin,
-        double nearLavaRate,
-        double burningRate,
-        double lavaRate,
-        double sprintRate,
-        /** When body and target differ by more than this, the rate is multiplied by diff / this. */
-        double driftAmplifyDistance,
-        /** Global multiplier on all drift rates (original config: tempMult). */
-        double rateMultiplier
+        @Doc(value = "Normal speed at which body temperature changes, per update.", min = 0, max = 100) double baseRate,
+        @Doc(value = "Cooling speed while out in the rain.", min = 0, max = 100) double exposedRainRate,
+        @Doc(value = "Cooling speed while in water.", min = 0, max = 100) double waterRate,
+        @Doc(value = "Warming speed near a strong heat source.", min = 0, max = 100) double strongHeatRate,
+        @Doc(value = "A heat source counts as strong when it is this much warmer than the ambient.", min = 0, max = 1000) double strongHeatMargin,
+        @Doc(value = "Warming speed near lava.", min = 0, max = 100) double nearLavaRate,
+        @Doc(value = "Warming speed while on fire.", min = 0, max = 100) double burningRate,
+        @Doc(value = "Warming speed while in lava.", min = 0, max = 100) double lavaRate,
+        @Doc(value = "Warming speed while sprinting.", min = 0, max = 100) double sprintRate,
+        @Doc(value = "When body and target differ by more than this, changes speed up proportionally.", min = 0.1, max = 1000) double driftAmplifyDistance,
+        @Doc(value = "Multiplies every speed above.", min = 0, max = 100) double rateMultiplier
 ) {
     public static TemperatureTuning defaults() {
         return new TemperatureTuning(
@@ -123,8 +106,8 @@ public record TemperatureTuning(
     }
 
     /**
-     * A copy with a different global rate multiplier. (More "with" methods will be added when the
-     * config file is wired up in M5, so nobody has to call the long constructor by position.)
+     * A copy with a different global rate multiplier. (The server config builds whole records
+     * from its values, so nothing else needs to call the long constructor by position.)
      */
     public TemperatureTuning withRateMultiplier(double multiplier) {
         return new TemperatureTuning(normalBodyTemp, comfortOffset, minBodyTemp, maxBodyTemp,

@@ -11,15 +11,23 @@ public final class Severity {
     private Severity() {}
 
     /** Body temperature thresholds, ordered mild to severe on each side. */
-    public record TemperatureThresholds(double cold1, double cold2, double cold3,
-                                        double hot1, double hot2, double hot3) {
+    public record TemperatureThresholds(
+            @Doc(value = "Body temperature at or below which you are cold (warning).", min = 0, max = 100) double cold1,
+            @Doc(value = "...freezing (Hypothermia I).", min = 0, max = 100) double cold2,
+            @Doc(value = "...severely hypothermic (Hypothermia II and damage).", min = 0, max = 100) double cold3,
+            @Doc(value = "Body temperature at or above which you are hot (warning).", min = 0, max = 100) double hot1,
+            @Doc(value = "...overheating (Heatstroke I).", min = 0, max = 100) double hot2,
+            @Doc(value = "...in severe heatstroke (Heatstroke II and damage).", min = 0, max = 100) double hot3) {
         public static TemperatureThresholds defaults() {
             return new TemperatureThresholds(35, 32, 30, 39, 41, 43);
         }
     }
 
     /** Hydration thresholds, ordered mild to severe. */
-    public record HydrationThresholds(double level1, double level2, double level3) {
+    public record HydrationThresholds(
+            @Doc(value = "Hydration at or below which you are thirsty (warning).", min = 0, max = 10000) double level1,
+            @Doc(value = "...parched (Dehydration I).", min = 0, max = 10000) double level2,
+            @Doc(value = "...dehydrated (Dehydration II and damage).", min = 0, max = 10000) double level3) {
         /** Thirsty at 30, parched at 10, dehydrated at 0. */
         public static HydrationThresholds defaults() {
             return new HydrationThresholds(30, 10, 0);

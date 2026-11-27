@@ -2,6 +2,7 @@ package enviromine_revived.world;
 
 import enviromine_revived.model.WaterClassifier;
 import enviromine_revived.model.WaterType;
+import enviromine_revived.registry.ModDataMaps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.tags.BiomeTags;
@@ -36,6 +37,11 @@ public final class WaterSources {
 
     private static WaterType classify(Level level, BlockPos pos, double y, boolean heated) {
         Holder<Biome> biome = level.getBiome(pos);
+        // A data pack can force the biome's water type; boiling still makes it clean.
+        ModDataMaps.BiomeClimate climate = DataModifiers.biome(biome);
+        if (!heated && climate != null && climate.water().isPresent()) {
+            return climate.water().get();
+        }
         boolean dirty = biome.is(Tags.Biomes.IS_SWAMP);
         boolean salty = biome.is(BiomeTags.IS_OCEAN) || biome.is(BiomeTags.IS_BEACH)
                 || biome.is(Tags.Biomes.IS_OCEAN) || biome.is(Tags.Biomes.IS_BEACH);

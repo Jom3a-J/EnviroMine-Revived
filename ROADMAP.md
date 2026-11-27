@@ -9,7 +9,7 @@
 | M2 | Player stat storage, server tick logic, client sync | done |
 | M3 | HUD for both stats | done |
 | M4 | Water types, drinking, effects of extreme values | done |
-| M5 | Data-driven biome, block and armour modifiers; config | |
+| M5 | Data-driven biome, block and armour modifiers; config | done (in-game check pending) |
 | M6 | Polish, balance, README, test checklist | |
 
 ## Possible later work (not in v1)
@@ -27,6 +27,9 @@ From the original EnviroMine, explicitly out of scope for v1:
 Other ideas:
 
 - Frostbite (gentler, never permanent)
+- Held items as heat sources (a torch in the hotbar), as in the original's item properties
+- Per-dimension temperature rules (the original's dimension properties)
+- Server-side validation of the config (for example cold thresholds in ascending order)
 - Camel pack / canteen
 - Per-dimension temperature rules
 - Compatibility with other mods' seasons or climate systems

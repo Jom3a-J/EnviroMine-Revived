@@ -64,5 +64,7 @@ Requires JDK 21.
 
 ## Documentation
 
+- [docs/DATAPACKS.md](docs/DATAPACKS.md): the server config and data-pack files (blocks, armour, biomes)
+
 - [docs/ORIGINAL_FEATURES.md](docs/ORIGINAL_FEATURES.md): how the original systems work
 - [docs/PORTING_MAP.md](docs/PORTING_MAP.md): old systems and their modern replacements

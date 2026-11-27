@@ -9,7 +9,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import enviromine_revived.data.ClimateData;
 import enviromine_revived.data.ModAttachments;
-import enviromine_revived.model.Severity;
+import enviromine_revived.config.Settings;
 import enviromine_revived.model.TemperatureTuning;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -36,7 +36,8 @@ public final class ClimateCommand {
     }
 
     private static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        TemperatureTuning tuning = ClimateTicker.TEMPERATURE.tuning();
+        // Ranges are fixed when the command is registered; values outside the configured limits are clamped by the model.
+        TemperatureTuning tuning = TemperatureTuning.defaults();
         dispatcher.register(Commands.literal(EnviroMineRevived.MOD_ID)
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("show")
@@ -51,7 +52,7 @@ public final class ClimateCommand {
                                                 .executes(c -> setBodyTemp(c))))
                                 .then(Commands.literal("hydration")
                                         .then(Commands.argument("value", DoubleArgumentType.doubleArg(
-                                                        0, ClimateTicker.HYDRATION.tuning().max()))
+                                                        0, 10000))
                                                 .executes(c -> setHydration(c))))))
                 .then(Commands.literal("reset")
                         .then(Commands.argument("player", EntityArgument.player())
@@ -60,9 +61,10 @@ public final class ClimateCommand {
 
     private static int show(CommandContext<CommandSourceStack> c, ServerPlayer player) {
         ClimateData d = player.getData(ModAttachments.CLIMATE);
-        int heat = Severity.temperature(d.bodyTemp(), Severity.TemperatureThresholds.defaults());
-        int thirst = Severity.hydration(d.hydration(), Severity.HydrationThresholds.defaults());
-        double target = d.ambient() + ClimateTicker.TEMPERATURE.tuning().comfortOffset();
+        Settings.Snapshot settings = Settings.get();
+        int heat = settings.temperatureLevel(d.bodyTemp());
+        int thirst = settings.thirstLevel(d.hydration());
+        double target = d.ambient() + settings.temperature().tuning().comfortOffset();
         c.getSource().sendSuccess(() -> Component.translatable("commands.enviromine_revived.show",
                 player.getDisplayName(),
                 format(d.bodyTemp(), 2), format(target, 1), format(d.ambient(), 1), heat,
@@ -80,7 +82,8 @@ public final class ClimateCommand {
     private static int setHydration(CommandContext<CommandSourceStack> c) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(c, "player");
         double value = DoubleArgumentType.getDouble(c, "value");
-        player.setData(ModAttachments.CLIMATE, player.getData(ModAttachments.CLIMATE).withHydration(value));
+        double max = Settings.get().hydration().tuning().max();
+        player.setData(ModAttachments.CLIMATE, player.getData(ModAttachments.CLIMATE).withHydration(Math.min(value, max)));
         return show(c, player);
     }
 

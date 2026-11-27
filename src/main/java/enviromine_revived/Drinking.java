@@ -2,6 +2,7 @@ package enviromine_revived;
 
 import java.util.random.RandomGenerator;
 
+import enviromine_revived.config.Settings;
 import enviromine_revived.data.ClimateData;
 import enviromine_revived.data.ModAttachments;
 import enviromine_revived.model.HydrationModel;
@@ -125,7 +126,7 @@ public final class Drinking {
                 LayeredCauldronBlock.lowerFillLevel(state, level, pos);
                 level.gameEvent(null, GameEvent.FLUID_PICKUP, pos);
             }
-        } else if (stack.isEmpty() && event.getHand() == InteractionHand.MAIN_HAND && wantsToDrink(player)) {
+        } else if (stack.isEmpty() && event.getHand() == InteractionHand.MAIN_HAND && canDrinkByHand(player)) {
             event.setCanceled(true);
             event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide()));
             if (player instanceof ServerPlayer serverPlayer && offCooldown(serverPlayer)) {
@@ -155,7 +156,7 @@ public final class Drinking {
             return;
         }
         if (!player.getMainHandItem().isEmpty() || player.isEyeInFluid(FluidTags.WATER)
-                || !wantsToDrink(player) || !offCooldown(player)) {
+                || !canDrinkByHand(player) || !offCooldown(player)) {
             return;
         }
         BlockHitResult hit = WaterSources.lookTarget(player, ClipContext.Fluid.ANY);
@@ -173,9 +174,16 @@ public final class Drinking {
 
     // ------------------------------------------------------------------------------------------
 
-    /** Not already full. Checked on both sides, so it only uses synced data. */
+    /** Hydration is on and not already full. Checked on both sides, so it only uses synced data. */
     public static boolean wantsToDrink(Player player) {
-        return ClimateTicker.HYDRATION.canDrink(player.getData(ModAttachments.CLIMATE).hydration());
+        Settings.Snapshot settings = Settings.get();
+        return settings.features().hydration()
+                && settings.hydration().canDrink(player.getData(ModAttachments.CLIMATE).hydration());
+    }
+
+    /** Drinking straight from water or a cauldron is allowed by the server config. */
+    public static boolean canDrinkByHand(Player player) {
+        return Settings.get().features().drinkByHand() && wantsToDrink(player);
     }
 
     private static boolean offCooldown(ServerPlayer player) {
@@ -195,10 +203,14 @@ public final class Drinking {
 
     /** Apply one drink: hydration, cooling and any side effects of the water. */
     public static void drink(ServerPlayer player, WaterType type, boolean fromBottle) {
+        Settings.Snapshot settings = Settings.get();
+        if (!settings.features().hydration()) {
+            return;
+        }
         ClimateData data = player.getData(ModAttachments.CLIMATE);
         RandomGenerator random = player.getRandom()::nextLong;
-        HydrationModel.Drink result = ClimateTicker.HYDRATION.drink(
-                data.hydration(), data.bodyTemp(), type.defaults(), fromBottle, random);
+        HydrationModel.Drink result = settings.hydration().drink(
+                data.hydration(), data.bodyTemp(), settings.water(type), fromBottle, random);
         player.setData(ModAttachments.CLIMATE,
                 new ClimateData(data.bodyTemp() + result.bodyTempChange(), result.hydration(), data.ambient()));
 

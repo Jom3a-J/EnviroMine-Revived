@@ -50,7 +50,7 @@ public final class ClientDrinking {
 
     /** The water the player is looking at, if it is the first thing in view and they are thirsty. */
     private static BlockHitResult waterInView(Player player) {
-        if (player.isEyeInFluid(FluidTags.WATER) || !Drinking.wantsToDrink(player)) {
+        if (player.isEyeInFluid(FluidTags.WATER) || !Drinking.canDrinkByHand(player)) {
             return null;
         }
         BlockHitResult hit = WaterSources.lookTarget(player, ClipContext.Fluid.ANY);

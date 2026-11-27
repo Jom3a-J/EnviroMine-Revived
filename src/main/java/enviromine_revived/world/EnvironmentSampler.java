@@ -7,6 +7,7 @@ import enviromine_revived.model.ArmorModifier;
 import enviromine_revived.model.Environment;
 import enviromine_revived.model.HydrationModel;
 import enviromine_revived.model.TemperatureModel;
+import enviromine_revived.registry.ModDataMaps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -15,7 +16,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -51,7 +51,9 @@ public final class EnvironmentSampler {
 
         DimensionType dimension = level.dimensionType();
         boolean daylightCycle = dimension.hasSkyLight() && !dimension.hasFixedTime();
-        Biome biome = level.getBiome(feet).value();
+        Holder<Biome> biomeHolder = level.getBiome(feet);
+        Biome biome = biomeHolder.value();
+        ModDataMaps.BiomeClimate climate = DataModifiers.biome(biomeHolder);
         boolean arid = !biome.hasPrecipitation();
         boolean canSeeSky = level.canSeeSky(head);
         boolean isDay = level.isDay();
@@ -65,8 +67,9 @@ public final class EnvironmentSampler {
         List<ArmorModifier> armor = new ArrayList<>(4);
         int fireProtectionLevels = 0;
         for (ItemStack stack : player.getArmorSlots()) {
-            if (stack.getItem() instanceof ArmorItem armorItem) {
-                armor.add(DefaultModifiers.armor(armorItem.getMaterial()));
+            // Any worn item can have an entry, not only armour (e.g. a carved pumpkin in a pack).
+            if (!stack.isEmpty()) {
+                armor.add(DataModifiers.armor(stack));
             }
             fireProtectionLevels += EnchantmentHelper.getItemEnchantmentLevel(fireProtection, stack);
         }
@@ -99,7 +102,7 @@ public final class EnvironmentSampler {
                 blocks.nearLava,
                 arid && isDay && daylightCycle,
                 player.hasEffect(MobEffects.HUNGER),
-                0);
+                climate == null ? 0 : climate.extraDrain());
 
         return new Sample(environment, activity);
     }
@@ -114,8 +117,12 @@ public final class EnvironmentSampler {
         int count = 0;
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
-                Biome biome = level.getBiome(center.offset(dx * RANGE, 0, dz * RANGE)).value();
-                sum += model.biomeAmbient(biome.getBaseTemperature());
+                Holder<Biome> biome = level.getBiome(center.offset(dx * RANGE, 0, dz * RANGE));
+                ModDataMaps.BiomeClimate climate = DataModifiers.biome(biome);
+                // A data pack can set a biome's ambient directly instead of deriving it.
+                sum += climate != null && climate.ambient().isPresent()
+                        ? climate.ambient().get()
+                        : model.biomeAmbient(biome.value().getBaseTemperature());
                 count++;
             }
         }
@@ -147,7 +154,7 @@ public final class EnvironmentSampler {
                     if (state.isAir()) {
                         continue;
                     }
-                    double temp = DefaultModifiers.blockTemperature(state);
+                    double temp = DataModifiers.blockTemperature(state);
                     if (temp == 0) {
                         continue;
                     }

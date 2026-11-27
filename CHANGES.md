@@ -59,6 +59,19 @@ Structure and most numbers follow the original; these are the deliberate differe
   data packs in M5.
 - Netherite, chainmail, turtle and armadillo armour have no temperature effect yet.
 
+## Config and data packs (M5)
+
+- One server config file (instead of the original's many per-object config files) holds every
+  balance number, plus switches for temperature, hydration, effects, damage and drinking by hand.
+  It reloads without a restart and is sent to clients, so the HUD matches the server.
+- Block, armour and biome values are NeoForge data maps in data packs, replacing the original's
+  BlockProperties, ArmorProperties and BiomeProperties config files. Entries accept tags.
+- Leather armour is warmer than in the original (+2 in the sun, +3 in the shade and at night per
+  piece, instead of +1), so cold biomes are survivable for longer with leather.
+- Any item worn in an armour slot can have a temperature entry, not only armour.
+- Not ported: per-dimension properties, item properties (held items as heat sources), entity
+  properties. See ROADMAP.md.
+
 ## Water and effects (M4)
 
 - No new bottle items: a vanilla water bottle filled from dirty, salty or cold water is marked

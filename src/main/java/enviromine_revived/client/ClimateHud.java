@@ -1,7 +1,7 @@
 package enviromine_revived.client;
 
-import enviromine_revived.ClimateTicker;
 import enviromine_revived.EnviroMineRevived;
+import enviromine_revived.config.Settings;
 import enviromine_revived.data.ClimateData;
 import enviromine_revived.data.ModAttachments;
 import enviromine_revived.hud.HudAnchor;
@@ -66,18 +66,39 @@ public final class ClimateHud {
             return;
         }
 
+        Settings.Features features = Settings.get().features();
+        if (!features.temperature() && !features.hydration()) {
+            return; // both systems switched off by the server
+        }
         ClimateData data = player.getData(ModAttachments.CLIMATE);
         HudAnchor anchor = ClientConfig.HUD_ANCHOR.get();
         HudLayout.Point at = HudLayout.position(anchor, graphics.guiWidth(), graphics.guiHeight(),
                 ClientConfig.HUD_OFFSET_X.get(), ClientConfig.HUD_OFFSET_Y.get(), mc.gui.rightHeight);
 
+        // The server's settings (sent on join); defaults in singleplayer before a world loads.
+        Settings.Snapshot settings = Settings.get();
         long time = player.level().getGameTime();
-        int heatLevel = Severity.temperature(data.bodyTemp(), Severity.TemperatureThresholds.defaults());
-        int thirstLevel = Severity.hydration(data.hydration(), Severity.HydrationThresholds.defaults());
+        int heatLevel = settings.temperatureLevel(data.bodyTemp());
+        int thirstLevel = settings.thirstLevel(data.hydration());
         boolean numbers = ClientConfig.SHOW_NUMBERS.get();
 
         int x = at.x();
         int y = at.y();
+        if (settings.features().temperature()) {
+            drawTemperatureHalf(graphics, mc, x, y, data, heatLevel, time, numbers, settings);
+        }
+        x += HudLayout.ICON + HudLayout.GAP + HudLayout.BAR_WIDTH + HudLayout.MIDDLE_GAP;
+        if (settings.features().hydration()) {
+            drawHydrationHalf(graphics, mc, x, y, data, thirstLevel, time, numbers, settings);
+        }
+
+        if (anchor == HudAnchor.STATUS_BARS) {
+            mc.gui.rightHeight += HudLayout.ROW_STEP; // later status bars stack above us
+        }
+    }
+
+    private static void drawTemperatureHalf(GuiGraphics graphics, Minecraft mc, int x, int y, ClimateData data,
+                                            int heatLevel, long time, boolean numbers, Settings.Snapshot settings) {
         if (!HudLayout.flashOff(heatLevel, time)) {
             graphics.blitSprite(THERMOMETER, x, y, HudLayout.ICON, HudLayout.ICON);
         }
@@ -86,30 +107,28 @@ public final class ClimateHud {
             String text = HudLayout.formatTemperature(data.bodyTemp(), ClientConfig.TEMPERATURE_UNIT.get());
             graphics.drawString(mc.font, text, x, y + 1, TEXT, true);
         } else {
-            drawTemperatureBar(graphics, x, y + (HudLayout.HEIGHT - HudLayout.BAR_HEIGHT) / 2, data);
+            drawTemperatureBar(graphics, x, y + (HudLayout.HEIGHT - HudLayout.BAR_HEIGHT) / 2, data, settings);
         }
-        x += HudLayout.BAR_WIDTH + HudLayout.MIDDLE_GAP;
+    }
 
+    private static void drawHydrationHalf(GuiGraphics graphics, Minecraft mc, int x, int y, ClimateData data,
+                                          int thirstLevel, long time, boolean numbers, Settings.Snapshot settings) {
         if (!HudLayout.flashOff(thirstLevel, time)) {
             graphics.blitSprite(DROPLET, x, y, HudLayout.ICON, HudLayout.ICON);
         }
         x += HudLayout.ICON + HudLayout.GAP;
-        double max = ClimateTicker.HYDRATION.tuning().max();
+        double max = settings.hydration().tuning().max();
         if (numbers) {
             graphics.drawString(mc.font, HudLayout.formatHydration(data.hydration(), max), x, y + 1, TEXT, true);
         } else {
             drawHydrationBar(graphics, x, y + (HudLayout.HEIGHT - HudLayout.BAR_HEIGHT) / 2, data.hydration(), max, thirstLevel);
         }
-
-        if (anchor == HudAnchor.STATUS_BARS) {
-            mc.gui.rightHeight += HudLayout.ROW_STEP; // later status bars stack above us
-        }
     }
 
-    private static void drawTemperatureBar(GuiGraphics g, int x, int y, ClimateData data) {
+    private static void drawTemperatureBar(GuiGraphics g, int x, int y, ClimateData data, Settings.Snapshot settings) {
         int w = HudLayout.BAR_WIDTH;
         int h = HudLayout.BAR_HEIGHT;
-        Severity.TemperatureThresholds th = Severity.TemperatureThresholds.defaults();
+        Severity.TemperatureThresholds th = settings.temperatureThresholds();
         double[] edges = {th.cold3(), th.cold2(), th.cold1(), th.hot1(), th.hot2(), th.hot3()};
 
         g.fill(x - 1, y - 1, x + w + 1, y + h + 1, BACKGROUND);
@@ -118,7 +137,7 @@ public final class ClimateHud {
                 g.fill(x + s.from(), y + 1, x + s.to(), y + h - 1, s.argb());
             }
         }
-        double target = data.ambient() + ClimateTicker.TEMPERATURE.tuning().comfortOffset();
+        double target = data.ambient() + settings.temperature().tuning().comfortOffset();
         int targetCol = HudLayout.markerColumn(target, w);
         int bodyCol = HudLayout.markerColumn(data.bodyTemp(), w);
         if (targetCol != bodyCol) {

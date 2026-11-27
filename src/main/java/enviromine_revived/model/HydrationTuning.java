@@ -3,28 +3,21 @@ package enviromine_revived.model;
 /**
  * Every number the hydration model uses. Hydration runs from 0 to {@link #max()}; amounts are per
  * model update (1.5 seconds). Original EnviroMine values are noted where the default differs.
+ * Each component's {@link Doc} becomes an entry in the server config.
  */
 public record HydrationTuning(
-        double max,
-        /** Always drained, every update. */
-        double baseDrain,
-        /** Body temperature at or above which the player sweats. */
-        double sweatBodyTemp,
-        /** Extra drain while sweating. */
-        double sweatDrain,
-        /** Sweating cools the body by this much per update, but only while well hydrated. */
-        double sweatCooling,
-        double sweatCoolingMinHydration,
-        double sprintDrain,
-        double nearLavaDrain,
-        /** Extra drain in arid biomes during the day. */
-        double aridDayDrain,
-        /** Extra drain while the vanilla Hunger effect is active. */
-        double hungerEffectDrain,
-        /** Global multiplier on all drains (original config: hydrationMult). */
-        double drainMultiplier,
-        /** Extra drain per update and per level of the Thirst effect (from salt water). */
-        double thirstEffectDrain
+        @Doc(value = "Full hydration.", min = 1, max = 10000) double max,
+        @Doc(value = "Hydration lost every update (1.5 s), always.", min = 0, max = 1000) double baseDrain,
+        @Doc(value = "Body temperature at or above which you sweat.", min = 0, max = 100) double sweatBodyTemp,
+        @Doc(value = "Extra hydration lost per update while sweating.", min = 0, max = 1000) double sweatDrain,
+        @Doc(value = "Sweating cools the body by this much per update...", min = 0, max = 100) double sweatCooling,
+        @Doc(value = "...but only while hydration is at least this.", min = 0, max = 10000) double sweatCoolingMinHydration,
+        @Doc(value = "Extra hydration lost per update while sprinting.", min = 0, max = 1000) double sprintDrain,
+        @Doc(value = "Extra hydration lost per update near lava.", min = 0, max = 1000) double nearLavaDrain,
+        @Doc(value = "Extra hydration lost per update in biomes without rain, by day.", min = 0, max = 1000) double aridDayDrain,
+        @Doc(value = "Extra hydration lost per update with the Hunger effect.", min = 0, max = 1000) double hungerEffectDrain,
+        @Doc(value = "Multiplies every hydration loss above.", min = 0, max = 100) double drainMultiplier,
+        @Doc(value = "Extra hydration lost per update and level of the Thirst effect (salt water).", min = 0, max = 1000) double thirstEffectDrain
 ) {
     public static HydrationTuning defaults() {
         return new HydrationTuning(

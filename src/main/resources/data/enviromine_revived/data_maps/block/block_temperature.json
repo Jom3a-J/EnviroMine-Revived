@@ -1,0 +1,25 @@
+{
+  "values": {
+    "minecraft:lava": { "temperature": 200 },
+    "minecraft:fire": { "temperature": 75 },
+    "minecraft:soul_fire": { "temperature": 75 },
+    "minecraft:campfire": { "temperature": 75 },
+    "minecraft:soul_campfire": { "temperature": 60 },
+    "minecraft:furnace": { "temperature": 50 },
+    "minecraft:blast_furnace": { "temperature": 50 },
+    "minecraft:smoker": { "temperature": 50 },
+    "minecraft:magma_block": { "temperature": 50 },
+    "minecraft:torch": { "temperature": 30 },
+    "minecraft:wall_torch": { "temperature": 30 },
+    "minecraft:soul_torch": { "temperature": 30 },
+    "minecraft:soul_wall_torch": { "temperature": 30 },
+    "minecraft:lantern": { "temperature": 30 },
+    "minecraft:soul_lantern": { "temperature": 30 },
+    "minecraft:snow": { "temperature": -0.02 },
+    "minecraft:snow_block": { "temperature": -0.02 },
+    "minecraft:powder_snow": { "temperature": -0.05 },
+    "minecraft:ice": { "temperature": -0.05 },
+    "minecraft:packed_ice": { "temperature": -0.1 },
+    "minecraft:blue_ice": { "temperature": -0.2 }
+  }
+}
