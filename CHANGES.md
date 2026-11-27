@@ -48,6 +48,17 @@ Structure and most numbers follow the original; these are the deliberate differe
 | Base hydration drain per 1.5 s | 0.04 (~62 min full to empty) | 0.05 (~50 min) |
 | Dirty water poison chance | 10 % | 25 % |
 
+## In-game logic (M2)
+
+- Stats are a NeoForge data attachment saved with the player and synced only to that player.
+  The original sent every player's stats to everyone within 128 blocks.
+- Stats reset on death (like vanilla hunger) and are kept when returning from the End.
+- Biome temperature is averaged over 9 points instead of 121 columns.
+- Gentler block heat: torches and lanterns 30 (original torch 75, as hot as fire), furnaces,
+  smokers, blast furnaces and magma 50; furnaces and campfires only count while lit. These move to
+  data packs in M5.
+- Netherite, chainmail, turtle and armadillo armour have no temperature effect yet.
+
 ## Still to come
 
 - Fix: surface water is no longer almost always "dirty" (the original compared height with

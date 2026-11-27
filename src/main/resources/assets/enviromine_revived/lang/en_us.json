@@ -1,2 +1,3 @@
 {
+  "commands.enviromine_revived.show": "%s: body %s °C (heading for %s, ambient %s °C, heat level %s), hydration %s (thirst level %s)"
 }

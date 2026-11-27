@@ -35,10 +35,22 @@ downloads. See [docs/LICENSE_NOTES.md](docs/LICENSE_NOTES.md) for the licence re
 Requires JDK 21.
 
 ```
-./gradlew build        # jar in build/libs
-./gradlew runClient    # dev client
-./gradlew runServer    # dev dedicated server
+./gradlew build              # jar in build/libs, runs the unit tests
+./gradlew runGameTestServer  # in-world tests on a headless server, then exits
+./gradlew runClient          # dev client
+./gradlew runServer          # dev dedicated server
 ```
+
+## Testing in game
+
+- Press **F3**: the left side shows an `[EnviroMine]` line with body temperature, hydration and
+  the felt ambient temperature (until the HUD exists).
+- Operator command (cheats on):
+  - `/enviromine_revived show [player]`
+  - `/enviromine_revived set <player> body_temp <20..50>`
+  - `/enviromine_revived set <player> hydration <0..100>`
+  - `/enviromine_revived reset <player>`
+- Stats are frozen in creative and spectator mode; use survival to see them change.
 
 ## Documentation
 
