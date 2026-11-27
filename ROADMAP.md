@@ -1,4 +1,4 @@
-# Roadmap
+﻿# Roadmap
 
 ## v1 (in progress)
 
@@ -6,8 +6,8 @@
 |---|---|---|
 | M0 | Empty mod loads; licence and credits | done |
 | M1 | Pure-Java temperature and hydration model with unit tests | done |
-| M2 | Player stat storage, server tick logic, client sync | done (client check pending) |
-| M3 | HUD for both stats | |
+| M2 | Player stat storage, server tick logic, client sync | done |
+| M3 | HUD for both stats | done (visual check pending) |
 | M4 | Water types, drinking, effects of extreme values | |
 | M5 | Data-driven biome, block and armour modifiers; config | |
 | M6 | Polish, balance, README, test checklist | |

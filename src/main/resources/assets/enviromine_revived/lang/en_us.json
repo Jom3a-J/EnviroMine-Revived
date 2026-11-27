@@ -1,3 +1,21 @@
 {
-  "commands.enviromine_revived.show": "%s: body %s °C (heading for %s, ambient %s °C, heat level %s), hydration %s (thirst level %s)"
+  "commands.enviromine_revived.show": "%s: body %s °C (heading for %s, ambient %s °C, heat level %s), hydration %s (thirst level %s)",
+
+  "enviromine_revived.configuration.title": "EnviroMine Revived",
+  "enviromine_revived.configuration.hud": "HUD",
+  "enviromine_revived.configuration.hud.tooltip": "Where and how the temperature and hydration display is drawn.",
+  "enviromine_revived.configuration.enabled": "Show HUD",
+  "enviromine_revived.configuration.enabled.tooltip": "Show the temperature and hydration HUD.",
+  "enviromine_revived.configuration.anchor": "Position",
+  "enviromine_revived.configuration.anchor.tooltip": "Where the HUD is drawn. Status bars stacks it above the hunger bar like a vanilla bar.",
+  "enviromine_revived.configuration.offset_x": "Horizontal offset",
+  "enviromine_revived.configuration.offset_x.tooltip": "Moves the HUD right (positive) or left (negative), in GUI pixels.",
+  "enviromine_revived.configuration.offset_y": "Vertical offset",
+  "enviromine_revived.configuration.offset_y.tooltip": "Moves the HUD down (positive) or up (negative), in GUI pixels.",
+  "enviromine_revived.configuration.show_numbers": "Show numbers",
+  "enviromine_revived.configuration.show_numbers.tooltip": "Show numbers (e.g. 37.2° and 87%) instead of bars.",
+  "enviromine_revived.configuration.temperature_unit": "Temperature unit",
+  "enviromine_revived.configuration.temperature_unit.tooltip": "Unit for the numbers.",
+  "enviromine_revived.configuration.show_in_creative": "Show in creative",
+  "enviromine_revived.configuration.show_in_creative.tooltip": "Also show the HUD in creative mode (stats do not change there)."
 }
