@@ -100,14 +100,18 @@ public final class TemperatureModel {
             temp += t.sleepingWarmth();
         }
 
+        // World rain does not fall in arid biomes, so only count it where it actually falls.
+        boolean rainFallsHere = env.raining() && !env.arid();
+
         // Rain only cools you while you are out in it (the original cooled even indoors).
-        boolean exposedToRain = env.raining() && !env.arid() && env.canSeeSky();
-        if (exposedToRain) {
+        if (rainFallsHere && env.canSeeSky()) {
             temp -= t.rainCooling();
             fall = Math.max(fall, t.exposedRainRate());
         }
 
-        if (env.isDay() && !env.canSeeSky() && !env.raining()) {
+        // Shade only matters while the sun is out. (The original checked world rain, so desert
+        // shade stopped cooling whenever it rained anywhere else.)
+        if (env.isDay() && !env.canSeeSky() && !rainFallsHere) {
             temp -= t.shadeCooling();
         }
 

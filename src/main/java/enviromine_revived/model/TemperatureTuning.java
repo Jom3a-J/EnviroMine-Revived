@@ -122,6 +122,23 @@ public record TemperatureTuning(
         );
     }
 
+    /**
+     * A copy with a different global rate multiplier. (More "with" methods will be added when the
+     * config file is wired up in M5, so nobody has to call the long constructor by position.)
+     */
+    public TemperatureTuning withRateMultiplier(double multiplier) {
+        return new TemperatureTuning(normalBodyTemp, comfortOffset, minBodyTemp, maxBodyTemp,
+                biomeHotMax, biomeColdMin,
+                undergroundTemp, undergroundStartY, undergroundFullY,
+                highAltitudeTemp, highAltitudeStartY, highAltitudeFullY,
+                rainCooling, shadeCooling, nightCooling, aridNightExtraCooling,
+                dayCurveScale, dayCurveOffsetDegrees, sleepingWarmth, sprintingWarmth, huddleOffset,
+                waterCoolCap, waterHotReduction, lavaTemp, burningMinTemp, fireProtectionLevelsForFull,
+                baseRate, exposedRainRate, waterRate, strongHeatRate, strongHeatMargin,
+                nearLavaRate, burningRate, lavaRate, sprintRate, driftAmplifyDistance,
+                multiplier);
+    }
+
     /** The ambient temperature at which body temperature settles at normal. */
     public double comfortableAmbient() {
         return normalBodyTemp - comfortOffset;

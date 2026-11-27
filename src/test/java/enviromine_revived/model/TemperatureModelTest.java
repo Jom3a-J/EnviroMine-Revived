@@ -18,6 +18,11 @@ class TemperatureModelTest {
         return Environment.builder();
     }
 
+    /** Desert (45 °C, no precipitation), noon, open sky. A fresh builder each call. */
+    private Environment.Builder desertNoon() {
+        return Environment.builder().biomeAmbient(45).arid(true);
+    }
+
     private double ambient(Environment.Builder env) {
         return model.ambient(env.build(), tuning.normalBodyTemp()).ambient();
     }
@@ -96,6 +101,15 @@ class TemperatureModelTest {
         void shadeCoolsDuringTheDay() {
             assertEquals(ambient(plainsNoon()) - tuning.shadeCooling(),
                     ambient(plainsNoon().canSeeSky(false)), EPS);
+        }
+
+        @Test
+        void desertShadeStillCoolsWhileItRainsElsewhere() {
+            // Regression test: world rain never falls in an arid biome, so the sun is still out.
+            Environment.Builder desertShade = plainsNoon().biomeAmbient(45).arid(true).canSeeSky(false);
+            double dry = ambient(desertShade);
+            assertEquals(dry, ambient(desertShade.raining(true)), EPS);
+            assertEquals(45 - tuning.shadeCooling(), dry, EPS);
         }
 
         @Test
@@ -195,13 +209,16 @@ class TemperatureModelTest {
 
         @Test
         void fireProtectionScalesHeatAboveComfortable() {
-            Environment.Builder desert = plainsNoon().biomeAmbient(45).arid(true);
             double comfortable = tuning.comfortableAmbient();
-            assertEquals(comfortable + (45 - comfortable) * 0.5, ambient(desert.fireProtectionLevels(9)), EPS);
-            assertEquals(comfortable, ambient(desert.fireProtectionLevels(40)), EPS);
-            // It only slows warming once the body is already warm.
-            assertEquals(tuning.baseRate(), model.ambient(desert.build(), 36).riseRate(), EPS);
-            assertEquals(tuning.baseRate() * 0.0, model.ambient(desert.build(), 38).riseRate(), EPS);
+            Environment halfProtected = desertNoon().fireProtectionLevels(9).build();
+            Environment fullyProtected = desertNoon().fireProtectionLevels(40).build();
+
+            assertEquals(comfortable + (45 - comfortable) * 0.5, model.ambient(halfProtected, 37).ambient(), EPS);
+            assertEquals(comfortable, model.ambient(fullyProtected, 37).ambient(), EPS);
+            // It only slows warming once the body is already at or above normal.
+            assertEquals(tuning.baseRate(), model.ambient(halfProtected, 36).riseRate(), EPS);
+            assertEquals(tuning.baseRate() * 0.5, model.ambient(halfProtected, 38).riseRate(), EPS);
+            assertEquals(0.0, model.ambient(fullyProtected, 38).riseRate(), EPS);
         }
 
         @Test
@@ -282,11 +299,10 @@ class TemperatureModelTest {
 
         @Test
         void rateMultiplierScalesRates() {
-            TemperatureTuning fast = new TemperatureTuning(37, 12, 20, 50, 45, -15, 24, 48, 0, -30, 120, 320,
-                    6, 2.5, 8, 15, 1.25, 30, 10, 2, 12, 25, 50, 200, 75, 18,
-                    0.001, 0.01, 0.01, 0.005, 5, 0.005, 0.1, 1.0, 0.01, 10, 3.0);
+            TemperatureTuning fast = tuning.withRateMultiplier(3.0);
             TemperatureModel.Ambient a = new TemperatureModel(fast).ambient(plainsNoon().build(), 37);
-            assertEquals(0.003, a.riseRate(), EPS);
+            assertEquals(tuning.baseRate() * 3.0, a.riseRate(), EPS);
+            assertEquals(tuning.baseRate() * 3.0, a.fallRate(), EPS);
         }
     }
 

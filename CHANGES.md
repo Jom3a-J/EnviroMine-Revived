@@ -24,6 +24,8 @@ Structure and most numbers follow the original; these are the deliberate differe
 - Cold biomes no longer come out warmer than mild ones (the original's biome formula multiplied a
   negative sine by a negative minimum).
 - The hydration multiplier is applied once to activity drain (the original applied it twice).
+- Shade keeps cooling in arid biomes while it rains elsewhere in the world (the original turned
+  shade off whenever the world was raining, even where rain never falls).
 
 ### Behaviour changes
 

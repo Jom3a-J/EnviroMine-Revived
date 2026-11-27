@@ -58,10 +58,9 @@ class HydrationModelTest {
 
     @Test
     void multiplierScalesDrainOnce() {
-        HydrationTuning doubled = new HydrationTuning(100, 0.04, 38, 0.1, 0.01, 75, 0.05, 0.05, 0.05, 0.1, 2.0);
-        HydrationModel m = new HydrationModel(doubled);
+        HydrationModel m = new HydrationModel(tuning.withDrainMultiplier(2.0));
         HydrationModel.Activity sprint = new HydrationModel.Activity(true, false, false, false, 0);
-        assertEquals(100 - 2 * (0.04 + 0.05), m.step(100, 37, sprint).hydration(), EPS);
+        assertEquals(100 - 2 * (tuning.baseDrain() + tuning.sprintDrain()), m.step(100, 37, sprint).hydration(), EPS);
         // ...and never affects drinking.
         assertEquals(60, m.drink(50, 37, WaterType.CLEAN.defaults(), new SplittableRandom(1)).hydration(), EPS);
     }

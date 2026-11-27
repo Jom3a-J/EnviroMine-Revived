@@ -39,4 +39,11 @@ public record HydrationTuning(
                 1.0     // drainMultiplier
         );
     }
+
+    /** A copy with a different global drain multiplier. */
+    public HydrationTuning withDrainMultiplier(double multiplier) {
+        return new HydrationTuning(max, baseDrain, sweatBodyTemp, sweatDrain, sweatCooling,
+                sweatCoolingMinHydration, sprintDrain, nearLavaDrain, aridDayDrain, hungerEffectDrain,
+                multiplier);
+    }
 }
