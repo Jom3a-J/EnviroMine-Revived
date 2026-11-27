@@ -13,6 +13,8 @@ EnviroMine mod for Minecraft 1.7.10, rebuilt for modern Minecraft with gentler d
   (requires NeoForge 21.1.267 or newer; install on both client and server)
 - **Source code:** https://github.com/Jom3a-J/EnviroMine-Revived
 - **Bug reports and ideas:** https://github.com/Jom3a-J/EnviroMine-Revived/issues
+- **Changelog:** [docs/CURSEFORGE_CHANGELOG.md](docs/CURSEFORGE_CHANGELOG.md) (what changed in each
+  version)
 
 ## Features
 
