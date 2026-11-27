@@ -106,6 +106,13 @@ mod:
 
 ---
 
+## Source code
+
+- **Source code, releases and bug reports:** https://github.com/Jom3a-J/EnviroMine-Revived
+- **Data-pack and config guide:** https://github.com/Jom3a-J/EnviroMine-Revived/blob/main/docs/DATAPACKS.md
+
+---
+
 ## Credits and licence
 
 Based on **EnviroMine** for Minecraft 1.7.10 by **Funwayguy, thislooksfun, GenDeathrow and
