@@ -55,4 +55,4 @@ Config
 - [ ] Licence confirmed by the original authors (see docs/LICENSE_NOTES.md)
 - [x] Final mod name and id chosen: EnviroMine Revived (`enviromine_revived`)
 - [ ] Credits checked against the original project's member list
-- [ ] Version number set; CHANGES.md up to date
+- [x] Version number set (1.0.0); CHANGES.md up to date

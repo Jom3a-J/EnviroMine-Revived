@@ -3,6 +3,9 @@
 Required by CC BY-NC-SA 4.0 ("indicate if changes were made"). The original is EnviroMine for
 Minecraft 1.7.10, commit `1652062` (2015-12-07) of https://github.com/EnviroMine/EnviroMine-1.7.
 
+This file describes version **1.0.0** (Minecraft 1.21.1, NeoForge 21.1.267), the first release of
+the port. Everything below is what differs from the original.
+
 ## Scope
 
 - Only body temperature and hydration are ported. Air quality, sanity, gases, cave physics,
