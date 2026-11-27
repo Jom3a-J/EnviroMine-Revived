@@ -41,6 +41,7 @@ Config
 ## Dedicated server (`./gradlew runServer`, then connect the dev client to `localhost`)
 
 - [ ] Server starts without errors (first start needs `eula=true` in `run/eula.txt`)
+- [ ] Dev server bound to this PC only (`server-ip=127.0.0.1` in `run/server.properties`): it runs with`n      `online-mode=false`, so anyone who can reach it can log in under any name
 - [ ] No client-only classes load on the server (no `NoClassDefFoundError` in the log)
 - [ ] Joining client gets the HUD and the server's config values
 - [ ] Two players: each only receives their own stats

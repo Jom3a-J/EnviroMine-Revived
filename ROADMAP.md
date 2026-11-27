@@ -1,6 +1,6 @@
 # Roadmap
 
-## v1 (in progress)
+## v1 (feature complete, not released)
 
 | Milestone | Content | Status |
 |---|---|---|
@@ -10,7 +10,7 @@
 | M3 | HUD for both stats | done |
 | M4 | Water types, drinking, effects of extreme values | done |
 | M5 | Data-driven biome, block and armour modifiers; config | done |
-| M6 | Polish, balance, README, test checklist | done except the dedicated-server run |
+| M6 | Polish, balance, README, test checklist | done |
 
 ## Possible later work (not in v1)
 
